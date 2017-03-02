@@ -26,8 +26,9 @@
             game.load.image('ground', 'assets/platform.png');
             game.load.image('star', 'assets/star.png');
             game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+            game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
         }
-        var platforms, player, cursors, stars;
+        var platforms, player, cursors, stars, baddie;
         var score = 0;
         var scoreText;
 
@@ -69,7 +70,7 @@
 
             //  Player physics properties. Give the little guy a slight bounce.
             player.body.bounce.y = 0.2;
-            player.body.gravity.y = 300;
+            player.body.gravity.y = 1000;
             player.body.collideWorldBounds = true;
 
             //  Our two animations, walking left and right.
@@ -86,7 +87,7 @@
                 var star = stars.create(i * 70, 0, 'star');
 
                 //  Let gravity do its thing
-                star.body.gravity.y = 6;
+                star.body.gravity.y = 900;
 
                 //  This just gives each star a slightly random bounce value
                 star.body.bounce.y = 0.7 + Math.random() * 0.2;
@@ -95,6 +96,22 @@
                 fontSize: '32px',
                 fill: '#000'
             });
+
+
+            // The baddie and its settings
+            baddie = game.add.sprite(32, game.world.height - 200, 'baddie');
+
+            //  We need to enable physics on the baddie
+            game.physics.arcade.enable(baddie);
+
+            //  Baddie physics properties. Give the little guy a slight bounce.
+            baddie.body.bounce.y = 0.2;
+            baddie.body.gravity.y = 300;
+            baddie.body.collideWorldBounds = true;
+
+            //  Our two animations, walking left and right.
+            baddie.animations.add('left', [0, 1], 10, true);
+            baddie.animations.add('right', [2, 3], 10, true);
         }
 
         function collectStar(player, star) {
@@ -110,6 +127,8 @@
         function update() {
             //  Collide the player and the stars with the platforms
             var hitPlatform = game.physics.arcade.collide(player, platforms);
+            game.physics.arcade.collide(baddie, platforms);
+            var hitBaddie = game.physics.arcade.collide(player, baddie);
             game.physics.arcade.collide(stars, platforms);
             game.physics.arcade.overlap(player, stars, collectStar, null, this);
             //  Reset the players velocity (movement)
@@ -134,8 +153,34 @@
 
             //  Allow the player to jump if they are touching the ground.
             if (cursors.up.isDown && player.body.touching.down && hitPlatform) {
-                player.body.velocity.y = -350;
+                player.body.velocity.y = -550;
             }
+
+            baddie.body.velocity.x = 0;
+
+            if (player.x < baddie.x) {
+                //  Move to the left
+                baddie.body.velocity.x = -50;
+
+                baddie.animations.play('left');
+            } else if (player.x > baddie.x) {
+                //  Move to the right
+                baddie.body.velocity.x = 50;
+
+                baddie.animations.play('right');
+            } else {
+                //  Stand still
+                baddie.animations.stop();
+
+                baddie.frame = 2;
+            }
+
+            //  Allow the baddie to jump if they are touching the ground.
+            // if (cursors.up.isDown && baddie.body.touching.down && hitPlatform) {
+            //     baddie.body.velocity.y = -550;
+            // }
+
+
         }
     </script>
 
