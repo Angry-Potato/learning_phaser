@@ -127,13 +127,15 @@
         function update() {
             //  Collide the player and the stars with the platforms
             var hitPlatform = game.physics.arcade.collide(player, platforms);
-            game.physics.arcade.collide(baddie, platforms);
+            var baddieHitPlatform = game.physics.arcade.collide(baddie, platforms);
             var hitBaddie = game.physics.arcade.collide(player, baddie);
             game.physics.arcade.collide(stars, platforms);
             game.physics.arcade.overlap(player, stars, collectStar, null, this);
             //  Reset the players velocity (movement)
             player.body.velocity.x = 0;
-
+            if (hitBaddie) {
+              player.kill();
+            }
             if (cursors.left.isDown) {
                 //  Move to the left
                 player.body.velocity.x = -150;
@@ -158,12 +160,12 @@
 
             baddie.body.velocity.x = 0;
 
-            if (player.x < baddie.x) {
+            if (player.x < baddie.x && player.alive) {
                 //  Move to the left
                 baddie.body.velocity.x = -50;
 
                 baddie.animations.play('left');
-            } else if (player.x > baddie.x) {
+            } else if (player.x > baddie.x && player.alive) {
                 //  Move to the right
                 baddie.body.velocity.x = 50;
 
@@ -176,10 +178,14 @@
             }
 
             //  Allow the baddie to jump if they are touching the ground.
-            // if (cursors.up.isDown && baddie.body.touching.down && hitPlatform) {
-            //     baddie.body.velocity.y = -550;
-            // }
+            if (player.body.bottom < baddie.body.bottom && baddie.body.touching.down && baddieHitPlatform && player.alive) {
+                baddie.body.velocity.y = -350;
+            }
 
+            if (!player.alive) {
+              debugger;
+              game.state.restart(true, true, true);
+            }
 
         }
     </script>
