@@ -4,6 +4,7 @@
   "description": "Learning phaser by doing phaser!",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.15.0",
     "phaser-ce": "^2.7.3"
   },
   "devDependencies": {},
