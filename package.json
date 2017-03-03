@@ -1,0 +1,28 @@
+{
+  "name": "learning_phaser",
+  "version": "1.0.0",
+  "description": "Learning phaser by doing phaser!",
+  "main": "index.js",
+  "dependencies": {
+    "phaser-ce": "^2.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Angry-Potato/learning_phaser.git"
+  },
+  "keywords": [
+    "phaser",
+    "js",
+    "learning"
+  ],
+  "author": "Liam Humphreys",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Angry-Potato/learning_phaser/issues"
+  },
+  "homepage": "https://github.com/Angry-Potato/learning_phaser#readme"
+}
