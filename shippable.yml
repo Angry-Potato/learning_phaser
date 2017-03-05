@@ -23,7 +23,8 @@ build:
     - pwd
 
   on_success:
-    - git push -f https://git.heroku.com/aqueous-gorge-66257.git master
+    # - git push -f https://git.heroku.com/aqueous-gorge-66257.git master
+    - git push heroku master
 
   cache: true
 
