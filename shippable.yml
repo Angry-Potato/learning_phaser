@@ -19,7 +19,7 @@ build:
 
   on_success:
     # - git push -f https://git.heroku.com/aqueous-gorge-66257.git master
-    - sh -c "git push -f git@heroku.com:aqueous-gorge-66257.git master"
+    - sh -c "git push https://git.heroku.com/aqueous-gorge-66257.git master"
 
   cache: true
 
