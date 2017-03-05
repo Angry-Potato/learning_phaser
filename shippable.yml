@@ -2,15 +2,11 @@
 language: node_js
 
 env:
-  - PORT=8080
+  global:
+    - PORT=8080
+    - APP_NAME=aqueous-gorge-66257
 
 build:
-  # pre_ci_boot:
-  #   image_name: angrypotato/learning_phaser
-  #   image_tag: latest
-  #   pull: true
-  #   options: '--privileged=true --net=bridge -e PORT=8080'
-
   pre_ci:
     - echo "this is master branch"
 
@@ -24,7 +20,7 @@ build:
 
   on_success:
     # - git push -f https://git.heroku.com/aqueous-gorge-66257.git master
-    - git push heroku master
+    - git push -f git@heroku.com:$APP_NAME.git master
 
   cache: true
 
