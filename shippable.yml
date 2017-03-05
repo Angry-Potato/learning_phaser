@@ -1,10 +1,6 @@
 # Language setting
 language: node_js
 
-# Version number
-node_js:
-  - 7.5.0
-
 build:
   pre_ci_boot:
     image_name: angrypotato/learning_phaser
