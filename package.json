@@ -7,10 +7,12 @@
     "express": "^4.15.0",
     "phaser-ce": "^2.7.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
   "scripts": {
     "start": "node index.js",
-    "test": "npm test"
+    "test": "mocha --recursive --reporter nyan '*.spec.js'"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,29 @@
+# Language setting
+language: node_js
+
+# Version number
+node_js:
+  - 7.5.0
+
+build:
+  pre_ci_boot:
+    image_name: liam/learning_phaser
+    image_tag: latest
+    pull: true
+    options: '--privileged=true --net=bridge -e PORT=8080'
+
+  pre_ci:
+    - echo "this is master branch"
+
+  ci:
+    - npm install
+    - npm test
+
+  post_ci:
+    - ls -a
+    - pwd
+
+  cache: true
+
+  cache_dir_list:
+    - $SHIPPABLE_BUILD_DIR/node_modules
