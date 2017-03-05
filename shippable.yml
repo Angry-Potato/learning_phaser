@@ -7,7 +7,7 @@ node_js:
 
 build:
   pre_ci_boot:
-    image_name: liam/learning_phaser
+    image_name: angrypotato/learning_phaser
     image_tag: latest
     pull: true
     options: '--privileged=true --net=bridge -e PORT=8080'
@@ -22,6 +22,9 @@ build:
   post_ci:
     - ls -a
     - pwd
+
+  on_success:
+    - git push -f https://git.heroku.com/aqueous-gorge-66257.git master
 
   cache: true
 
