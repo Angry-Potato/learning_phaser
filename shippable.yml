@@ -1,12 +1,15 @@
 # Language setting
 language: node_js
 
+env:
+  - PORT=8080
+
 build:
-  pre_ci_boot:
-    image_name: angrypotato/learning_phaser
-    image_tag: latest
-    pull: true
-    options: '--privileged=true --net=bridge -e PORT=8080'
+  # pre_ci_boot:
+  #   image_name: angrypotato/learning_phaser
+  #   image_tag: latest
+  #   pull: true
+  #   options: '--privileged=true --net=bridge -e PORT=8080'
 
   pre_ci:
     - echo "this is master branch"
