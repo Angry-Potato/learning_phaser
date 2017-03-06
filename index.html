@@ -215,6 +215,9 @@
               }
             }
 
+            if (!player.alive) {
+              game.state.restart(true, true);
+            }
         }
         function touchDown() {
         	// Set touchDown to true, so we only trigger this once
