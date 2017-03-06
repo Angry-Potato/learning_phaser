@@ -11,7 +11,7 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
-RUN adduser -D myuser
+RUN useradd -m myuser
 USER myuser
 
 CMD [ "npm", "start" ]
