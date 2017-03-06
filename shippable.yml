@@ -4,7 +4,7 @@ language: node_js
 env:
   global:
     - PORT=8080
-    - APP_NAME=aqueous-gorge-66257
+    - APP_NAME=learning-phaser
     - secure: THSjBVRonqA6UXzzDDg5S5vWw7ktUKY6sLFgL5r6eJWA+7C1kB7yNEeCdGTehITQ447NGDynDiPD1WA8siXSYXPtleK0zTOqdNPEEVhVlMxUvF1V1DqJB/TgigWQJfeiY/VR7PCmc2BIGOgZ5GoXg/xpn0zzqg+eNam63CWnsbZ1fP3V6No7TcB3XGcruhcwdC2QsvUkjIl54veiIWWsj58xaeGLjOG6gG8uRMyELSQGGrHtPaiYNn8jaEMubOwIDSSuJvqIPNvjuhl+9HffrlUHTyP8A40XkFOScMHAbnjVU7kW/6JCJe+UNrYBB3KDB37Oat9m/JQZhqCk3CCITQ==
 
 build:
@@ -21,7 +21,6 @@ build:
     - pwd
 
   on_success:
-    # - git push -f https://git.heroku.com/aqueous-gorge-66257.git master
     - test -f ~/.ssh/id_rsa.heroku || ssh-keygen -y -f /tmp/ssh/00_sub > ~/.ssh/id_rsa.heroku && heroku keys:add ~/.ssh/id_rsa.heroku
     - git remote -v | grep ^heroku || heroku git:remote --ssh-git --app $APP_NAME
     - git push -f heroku master
