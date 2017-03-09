@@ -76,16 +76,8 @@ obstacles come from right  -->
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
 
-            //  Now let's create two ledges
-            var ledge = platforms.create(400, 400, 'ground');
-
-            ledge.body.immovable = true;
-
-            ledge = platforms.create(-150, 250, 'ground');
-
-            ledge.body.immovable = true;
             // The player and its settings
-            player = game.add.sprite(32, game.world.height - 150, 'dude');
+            player = game.add.sprite((game.world.width * 0.5) - 32, game.world.height - 130, 'dude');
 
             //  We need to enable physics on the player
             game.physics.arcade.enable(player);
@@ -187,9 +179,7 @@ obstacles come from right  -->
                 player.animations.play('right');
             } else {
                 //  Stand still
-                player.animations.stop();
-
-                player.frame = 4;
+                player.animations.play('right');
             }
 
             //  Allow the player to jump if they are touching the ground.
@@ -252,11 +242,10 @@ obstacles come from right  -->
         	var laser = lasers.getFirstExists(false);
         	if (laser) {
         		// If we have a laser, set it to the starting position
-        		laser.reset(player.x, player.y - 20);
+        		laser.reset(player.body.center.x, player.body.center.y+10);
         		// Give it a velocity of -500 so it starts shooting
-        		laser.body.velocity.y = -500;
+        		laser.body.velocity.x = -500;
         	}
-
         }
     </script>
 
