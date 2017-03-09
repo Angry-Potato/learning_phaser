@@ -36,7 +36,7 @@ obstacles come from right  -->
           game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
         }
         var button;
-        var platforms, player, cursors, stars, baddie, lasers;
+        var platforms, player, cursors, stars, baddies, lasers;
         var mouseTouchDown = false;
         var score = 0;
         var scoreText;
@@ -112,23 +112,53 @@ obstacles come from right  -->
             });
 
 
+            baddies = game.add.group();
+            baddies.enableBody = true;
+            baddies.physicsBodyType = Phaser.Physics.ARCADE;
+            baddies.createMultiple(20, 'baddie');
+            baddies.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', spawnBaddie);
+            baddies.callAll('events.onKilled.add', 'events.onKilled', spawnBaddie);
+            baddies.callAll('anchor.setTo', 'anchor', 0.5, 1.0);
+            baddies.setAll('checkWorldBounds', true);
+            game.physics.arcade.enable(baddies);
+
+            for (var i = 0; i < baddies.length; i++) {
+
+              //  Let gravity do its thing
+              var baddie = baddies.getChildAt(i);
+              baddie.body.bounce.y = 0.2;
+              baddie.body.gravity.y = 300;
+              baddie.body.collideWorldBounds = true;
+              //
+              // //  Our two animations, walking left and right.
+              baddie.animations.add('left', [0, 1], 10, true);
+              baddie.animations.add('right', [2, 3], 10, true);
+            }
+
+
+
+
+
+
             // The baddie and its settings
-            baddie = game.add.sprite(32, game.world.height - 200, 'baddie');
-
-            //  We need to enable physics on the baddie
-            game.physics.arcade.enable(baddie);
-
-            //  Baddie physics properties. Give the little guy a slight bounce.
-            baddie.body.bounce.y = 0.2;
-            baddie.body.gravity.y = 300;
-            baddie.body.collideWorldBounds = true;
-
-            //  Our two animations, walking left and right.
-            baddie.animations.add('left', [0, 1], 10, true);
-            baddie.animations.add('right', [2, 3], 10, true);
+            // baddie = game.add.sprite(32, game.world.height - 200, 'baddie');
+            //
+            // //  We need to enable physics on the baddie
+            // game.physics.arcade.enable(baddie);
+            //
+            // //  Baddie physics properties. Give the little guy a slight bounce.
+            // baddie.body.bounce.y = 0.2;
+            // baddie.body.gravity.y = 300;
+            // baddie.body.collideWorldBounds = true;
+            //
+            // //  Our two animations, walking left and right.
+            // baddie.animations.add('left', [0, 1], 10, true);
+            // baddie.animations.add('right', [2, 3], 10, true);
 
             button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0);
             button.visible = false;
+
+            spawnBaddie();
         }
         function actionOnClick () {
           game.state.restart(true, true);
@@ -157,11 +187,11 @@ obstacles come from right  -->
         function update() {
             //  Collide the player and the stars with the platforms
             var hitPlatform = game.physics.arcade.collide(player, platforms);
-            var baddieHitPlatform = game.physics.arcade.collide(baddie, platforms);
-            var hitBaddie = game.physics.arcade.collide(player, baddie);
+            var baddieHitPlatform = game.physics.arcade.collide(baddies, platforms);
+            var hitBaddie = game.physics.arcade.collide(player, baddies);
             game.physics.arcade.collide(stars, platforms);
             game.physics.arcade.overlap(player, stars, collectStar, null, this);
-            game.physics.arcade.overlap(baddie, lasers, killBaddie, null, this);
+            game.physics.arcade.overlap(baddies, lasers, killBaddie, null, this);
             //  Reset the players velocity (movement)
             player.body.velocity.x = 0;
             if (hitBaddie) {
@@ -187,29 +217,32 @@ obstacles come from right  -->
                 player.body.velocity.y = -550;
             }
 
-            baddie.body.velocity.x = 0;
+            baddies.setAll('body.velocity.x', 0);
 
-            if (player.x < baddie.x && player.alive) {
-                //  Move to the left
-                baddie.body.velocity.x = -50;
+            for (var i = 0; i < baddies.length; i++) {
 
-                baddie.animations.play('left');
-            } else if (player.x > baddie.x && player.alive) {
-                //  Move to the right
-                baddie.body.velocity.x = 50;
+              var baddie = baddies.getChildAt(i);
+              if (player.x < baddie.x && player.alive) {
+                  //  Move to the left
+                  baddie.body.velocity.x = -50;
 
-                baddie.animations.play('right');
-            } else {
-                //  Stand still
-                baddie.animations.stop();
-                baddie.frame = 2;
+                  baddie.animations.play('left');
+              } else if (player.x > baddie.x && player.alive) {
+                  //  Move to the right
+                  baddie.body.velocity.x = 50;
+
+                  baddie.animations.play('right');
+              } else {
+                  //  Stand still
+                  baddie.animations.stop();
+                  baddie.frame = 2;
+              }
+
+              //  Allow the baddie to jump if they are touching the ground.
+              if (player.body.bottom < baddie.body.bottom && baddie.body.touching.down && baddieHitPlatform && player.alive) {
+                  baddie.body.velocity.y = -350;
+              }
             }
-
-            //  Allow the baddie to jump if they are touching the ground.
-            if (player.body.bottom < baddie.body.bottom && baddie.body.touching.down && baddieHitPlatform && player.alive) {
-                baddie.body.velocity.y = -350;
-            }
-
             // Game.input.activePointer is either the first finger touched, or the mouse
             if (game.input.activePointer.isDown) {
               // We'll manually keep track if the pointer wasn't already down
@@ -245,6 +278,15 @@ obstacles come from right  -->
         		laser.reset(player.body.center.x, player.body.center.y+10);
         		// Give it a velocity of -500 so it starts shooting
         		laser.body.velocity.x = -500;
+        	}
+        }
+        function spawnBaddie() {
+        	var baddie = baddies.getFirstExists(false);
+        	if (baddie) {
+        		// If we have a baddie, set it to the starting position
+        		baddie.reset(32, game.world.height - 200);
+        		// Give it a velocity of -500 so it starts shooting
+        		baddie.body.velocity.x = 0;
         	}
         }
     </script>
