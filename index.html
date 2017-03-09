@@ -38,6 +38,7 @@ obstacles come from right  -->
         var button;
         var platforms, player, cursors, stars, baddies, lasers;
         var mouseTouchDown = false;
+        var baddiesKilled = 0;
         var score = 0;
         var scoreText;
 
@@ -182,6 +183,7 @@ obstacles come from right  -->
             //  Add and update the score
             score += 10;
             scoreText.text = 'Score: ' + score;
+            baddiesKilled += 1;
         }
 
         function update() {
@@ -281,13 +283,19 @@ obstacles come from right  -->
         	}
         }
         function spawnBaddie() {
-        	var baddie = baddies.getFirstExists(false);
-        	if (baddie) {
-        		// If we have a baddie, set it to the starting position
-        		baddie.reset(32, game.world.height - 200);
-        		// Give it a velocity of -500 so it starts shooting
-        		baddie.body.velocity.x = 0;
-        	}
+          for (var i = -1; i < baddiesKilled; i++) {
+            setTimeout(function(){
+              var baddie = baddies.getFirstExists(false);
+              if (baddie) {
+              // If we have a baddie, set it to the starting position
+              baddie.reset(32, game.world.height - 150);
+              // Give it a velocity of -500 so it starts shooting
+              baddie.body.velocity.x = 0;
+              }
+            }, 500 + (500 * i));
+          }
+
+
         }
     </script>
 
