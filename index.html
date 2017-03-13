@@ -79,10 +79,9 @@
       var ground = platforms.create(0, 600 - 64, 'ground');
 
       //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-      ground.scale.setTo(2, 2);
+      ground.scale.setTo(3.5, 2);
 
       //  This stops it from falling away when you jump on it
-      ground.body.immovable = true;
       ground.body.immovable = true;
 
       // The player and its settings
@@ -152,7 +151,7 @@
       trees.createMultiple(20, 'tree');
       trees.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', spawnTree);
       trees.callAll('events.onKilled.add', 'events.onKilled', spawnTree);
-      trees.callAll('anchor.setTo', 'anchor', 0.5, 1.0);
+      trees.callAll('anchor.setTo', 'anchor', 0.5, 0.5);
       trees.setAll('checkWorldBounds', true);
       game.physics.arcade.enable(trees);
 
@@ -160,9 +159,9 @@
         //  Let gravity do its thing
         var tree = trees.getChildAt(i);
         tree.body.bounce.y = 0.2;
-        tree.body.gravity.y = 300;
-        tree.body.collideWorldBounds = true;
-        tree.body.mass = 1;
+        // tree.body.gravity.y = 300;
+        tree.body.collideWorldBounds = false;
+        tree.body.immovable = true;
       }
 
       button = game.add.button(game.camera.x + (game.width * 0.5), game.camera.y + (game.height * 0.5), 'button', actionOnClick, this, 2, 1, 0);
@@ -297,9 +296,8 @@
       var tree = trees.getFirstExists(false);
       if (tree) {
         // If we have a tree, set it to the starting position
-        tree.reset(game.world.width-200, game.world.height - 150);
+        tree.reset(game.camera.x + (game.width * 1.1), game.camera.y + (game.height - 100));
         // Give it a velocity of -500 so it starts shooting
-        tree.body.velocity.x = -100;
       }
     }
   </script>
