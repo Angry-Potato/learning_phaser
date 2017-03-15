@@ -183,6 +183,7 @@
     }
 
     function update() {
+      game.camera.bounds = game.camera.view;
       //  Collide the player and the stars with the platforms
       var hitPlatform = game.physics.arcade.collide(player, platforms);
       var baddieHitPlatform = game.physics.arcade.collide(baddies, platforms);
