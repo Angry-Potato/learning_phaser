@@ -29,10 +29,8 @@
     });
 
     function render() {
-
-        game.debug.cameraInfo(game.camera, 32, 32);
-        game.debug.spriteCoords(player, 32, 500);
-
+      game.debug.cameraInfo(game.camera, 32, 32);
+      game.debug.spriteCoords(player, 32, 500);
     }
     function preload() {
       game.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
@@ -290,16 +288,37 @@
       }
     }
     function spawnFloor(x) {
+      debugger;
       var ground = platforms.getFirstExists(false);
       if (ground) {
-        ground.reset(x == null ? 0 : (game.camera.x + (game.width)), game.camera.y + (game.height - 64));
+        var lastGround = lastAliveGround();
+        do {
+          debugger;
+          ground.reset(lastGround == null ? 0 : lastGround.body.right/*(game.camera.x + (game.width))*/, game.camera.y + (game.height - 64));
 
-        ground.scale.setTo(3.5, 2);
-
-        ground.body.immovable = true;
-        ground.events.onOutOfBounds.add(spawnFloor, this);
-        ground.checkWorldBounds = true;
+          ground.body.immovable = true;
+          ground.events.onOutOfBounds.add(spawnFloor, this);
+          ground.checkWorldBounds = true;
+          ground = platforms.getFirstExists(false);
+          if (!ground) {
+            break;
+          }
+          lastGround = lastAliveGround();
+        } while (Phaser.Rectangle.intersects(lastGround.getLocalBounds(), game.camera.view));
       }
+    }
+    function lastAliveGround() {
+      debugger;
+      var last = {x: -100};
+      var found = false;
+      for (var i = 0; i < platforms.length; i++) {
+        var platform = platforms.getChildAt(i);
+        if (platform.alive && platform.x > last.x) {
+          last = platform;
+          found = true;
+        }
+      }
+      return found ? last : null;
     }
   </script>
 </body>
