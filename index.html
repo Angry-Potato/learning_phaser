@@ -286,12 +286,10 @@
       }
     }
     function spawnFloor(x) {
-      debugger;
       var ground = platforms.getFirstExists(false);
       if (ground) {
         var lastGround = lastAliveGround();
         do {
-          debugger;
           ground.reset(lastGround == null ? 0 : lastGround.body.right, game.camera.y + (game.height - 32));
 
           ground.body.immovable = true;
@@ -306,7 +304,6 @@
       }
     }
     function lastAliveGround() {
-      debugger;
       var last = {x: -100};
       var found = false;
       for (var i = 0; i < platforms.length; i++) {
