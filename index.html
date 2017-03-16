@@ -193,7 +193,7 @@
       player.animations.play('right');
 
 
-      if (cursors.up.isDown && player.body.touching.down) {
+      if ((cursors.up.isDown || game.input.activePointer.isDown && game.input.x > (game.width*0.5)) && player.body.touching.down) {
         player.body.velocity.y = -550;
       }
 
@@ -219,7 +219,7 @@
           baddie.body.velocity.y = -350;
         }
       }
-      if (game.input.activePointer.isDown) {
+      if (game.input.activePointer.isDown && game.input.x < (game.width*0.5)) {
         if (!mouseTouchDown) {
           touchDown();
         }
