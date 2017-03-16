@@ -76,8 +76,7 @@
       platforms.createMultiple(5, 'ground');
       for (var i = 0; i < platforms.length; i++) {
         var ground = platforms.getChildAt(i);
-        ground.events.onOutOfBounds.add(spawnFloor, this);
-        ground.checkWorldBounds = true;
+        ground.checkWorldBounds = false;
       }
       spawnFloor();
 
@@ -118,17 +117,14 @@
       baddies.createMultiple(20, 'baddie');
       baddies.callAll('events.onKilled.add', 'events.onKilled', spawnBaddie);
       baddies.callAll('anchor.setTo', 'anchor', 0.5, 1.0);
-      baddies.setAll('checkWorldBounds', true);
       game.physics.arcade.enable(baddies);
 
       for (var i = 0; i < baddies.length; i++) {
-        //  Let gravity do its thing
         var baddie = baddies.getChildAt(i);
         baddie.body.bounce.y = 0.2;
         baddie.body.gravity.y = 300;
         baddie.body.collideWorldBounds = true;
-
-        // //  Our two animations, walking left and right.
+        baddie.checkWorldBounds = false;
         baddie.animations.add('left', [0, 1], 10, true);
         baddie.animations.add('right', [2, 3], 10, true);
       }
@@ -143,10 +139,8 @@
       game.physics.arcade.enable(trees);
 
       for (var i = 0; i < trees.length; i++) {
-        //  Let gravity do its thing
         var tree = trees.getChildAt(i);
         tree.body.bounce.y = 0.2;
-        // tree.body.gravity.y = 300;
         tree.body.collideWorldBounds = false;
         tree.body.immovable = true;
       }
@@ -164,19 +158,15 @@
       button.visible = false;
     }
     function collectStar(player, star) {
-      // Removes the star from the screen
       star.kill();
 
-      //  Add and update the score
       score += 10;
       scoreText.text = 'Score: ' + score;
     }
 
     function killBaddie(baddie, laser) {
-      // Removes the star from the screen
       baddie.kill();
       laser.kill();
-      //  Add and update the score
       score += 10;
       scoreText.text = 'Score: ' + score;
       baddiesKilled += 1;
@@ -184,7 +174,6 @@
 
     function update() {
       game.world.setBounds(player.position.x - (game.width * 0.5), 0, game.width*2, game.height);
-      //  Collide the player and the stars with the platforms
       var hitPlatform = game.physics.arcade.collide(player, platforms);
       var baddieHitPlatform = game.physics.arcade.collide(baddies, platforms);
       var hitBaddie = game.physics.arcade.collide(player, baddies);
@@ -197,7 +186,6 @@
       killStuff(backgrounds);
       killStuff(platforms);
       killStuff(trees);
-      //  Reset the players velocity (movement)
       player.body.velocity.x = 100;
       if (hitBaddie) {
         player.kill();
@@ -205,7 +193,6 @@
       player.animations.play('right');
 
 
-      //  Allow the player to jump if they are touching the ground.
       if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -550;
       }
@@ -215,29 +202,23 @@
       for (var i = 0; i < baddies.length; i++) {
         var baddie = baddies.getChildAt(i);
         if (player.x < baddie.x && player.alive) {
-          //  Move to the left
           baddie.body.velocity.x -= 50;
 
           baddie.animations.play('left');
         } else if (player.x > baddie.x && player.alive) {
-          //  Move to the right
           baddie.body.velocity.x += 50;
 
           baddie.animations.play('right');
         } else {
-          //  Stand still
           baddie.animations.stop();
           baddie.frame = 2;
         }
 
-        //  Allow the baddie to jump if they are touching the ground.
         if (player.body.bottom < baddie.body.bottom && baddie.body.touching.down && baddieHitPlatform && player.alive) {
           baddie.body.velocity.y = -350;
         }
       }
-      // Game.input.activePointer is either the first finger touched, or the mouse
       if (game.input.activePointer.isDown) {
-        // We'll manually keep track if the pointer wasn't already down
         if (!mouseTouchDown) {
           touchDown();
         }
@@ -252,23 +233,18 @@
       }
     }
     function touchDown() {
-      // Set touchDown to true, so we only trigger this once
       mouseTouchDown = true;
       fireLaser();
     }
 
     function touchUp() {
-      // Set touchDown to false, so we can trigger touchDown on the next click
       mouseTouchDown = false;
     }
 
     function fireLaser() {
-      // Get the first laser that's inactive, by passing 'false' as a parameter
       var laser = lasers.getFirstExists(false);
       if (laser) {
-        // If we have a laser, set it to the starting position
         laser.reset(player.body.center.x, player.body.center.y+10);
-        // Give it a velocity of -500 so it starts shooting
         laser.body.velocity.x = -500;
       }
     }
@@ -298,7 +274,7 @@
 
           ground.body.immovable = true;
           ground.events.onKilled.add(spawnFloor, this);
-          ground.checkWorldBounds = true;
+          ground.checkWorldBounds = false;
           ground = platforms.getFirstExists(false);
           if (!ground) {
             break;
