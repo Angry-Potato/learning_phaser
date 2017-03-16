@@ -212,6 +212,7 @@
         } else {
           baddie.animations.stop();
           baddie.frame = 2;
+          baddie.body.velocity.x = 0;
         }
 
         if (player.body.bottom < baddie.body.bottom && baddie.body.touching.down && baddieHitPlatform && player.alive) {
