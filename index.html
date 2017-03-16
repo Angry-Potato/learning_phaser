@@ -114,7 +114,6 @@
       baddies.enableBody = true;
       baddies.physicsBodyType = Phaser.Physics.ARCADE;
       baddies.createMultiple(20, 'baddie');
-      baddies.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', spawnBaddie);
       baddies.callAll('events.onKilled.add', 'events.onKilled', spawnBaddie);
       baddies.callAll('anchor.setTo', 'anchor', 0.5, 1.0);
       baddies.setAll('checkWorldBounds', true);
@@ -274,8 +273,7 @@
         setTimeout(function(){
           var baddie = baddies.getFirstExists(false);
           if (baddie) {
-            // If we have a baddie, set it to the starting position
-            baddie.reset(32, game.world.height - 150);
+            baddie.reset(game.camera.x - 32, game.world.height - 150);
             baddie.body.velocity.x = 0;
           }
         }, 500 + (500 * i));
