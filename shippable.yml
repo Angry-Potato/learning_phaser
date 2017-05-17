@@ -16,11 +16,11 @@ build:
     - npm install
     - npm test
     - docker build -f Dockerfile-cordova -t cordova .
-    - docker run -it --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova create hello
+    - docker run -it --rm -v $PWD:/src cordova cordova create hello
     - cd hello
-    - docker run -it --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova platform add android
-    - docker run -it --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova plugin add cordova-plugin-crosswalk-webview
-    - docker run -it --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova build android
+    - docker run -it --rm -v $PWD:/src cordova cordova platform add android
+    - docker run -it --rm -v $PWD:/src cordova cordova plugin add cordova-plugin-crosswalk-webview
+    - docker run -it --rm -v $PWD:/src cordova cordova build android
 
   post_ci:
     - ls -a
