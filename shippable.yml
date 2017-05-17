@@ -17,7 +17,7 @@ build:
     - npm test
     - mkdir docker-cordova
     - cd docker-cordova
-    - docker build -f Dockerfile-cordova -t cordova .
+    - docker build -f ../Dockerfile-cordova -t cordova .
     - alias mine='sudo chown -R $USER'
     - alias drun='docker run -it --rm'
     - alias cordova='drun --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova'
