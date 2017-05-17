@@ -15,6 +15,17 @@ build:
     - which heroku || wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
     - npm install
     - npm test
+    - git clone git@github.com:oren/docker-cordova.git
+    - cd docker-cordova
+    - docker build -t cordova .
+    - alias mine='sudo chown -R $USER'
+    - alias drun='docker run -it --rm'
+    - alias cordova='drun --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova'
+    - cordova create hello
+    - cd hello
+    - cordova platform add android
+    - cordova plugin add cordova-plugin-crosswalk-webview
+    - cordova build android
 
   post_ci:
     - ls -a
