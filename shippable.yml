@@ -16,6 +16,8 @@ build:
     - npm install
     - npm test
     - docker build -f Dockerfile-cordova -t cordova .
+    - pwd
+    - ls -al
     - rm -rf hello
     - docker run --rm -v $PWD:/src cordova cordova create hello
     - pwd
