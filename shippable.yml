@@ -25,6 +25,7 @@ build:
     - docker run --rm -v $PWD:/src -w /src/hello cordova cordova build android
     - cp hello/platforms/android/build/outputs/apk/* assets/
     - docker run --rm -v $PWD:/src -w /src cordova rm -rf hello
+    - docker cp cordova:/src/hello/platforms/android/build/outputs/apk/* assets/
 
   post_ci:
     - ls -a
