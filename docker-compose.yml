@@ -1,0 +1,7 @@
+version: '2'
+services:
+  cordova:
+    build:
+      dockerfile: Dockerfile-cordova
+      context: .
+    command: cordova build android

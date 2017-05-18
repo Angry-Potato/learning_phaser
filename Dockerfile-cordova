@@ -2,5 +2,11 @@ FROM beevelop/cordova:latest
 RUN mkdir $ANDROID_HOME/licenses
 
 COPY android-sdk-license $ANDROID_HOME/licenses/
-VOLUME /src
 WORKDIR /src
+
+RUN cordova create hello
+WORKDIR /src/hello
+RUN cordova platform add android
+RUN cordova plugin add cordova-plugin-crosswalk-webview
+# RUN cordova build android
+# - docker cp cordova:/src/hello/platforms/android/build/outputs/apk/* assets/
