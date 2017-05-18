@@ -15,7 +15,7 @@ build:
     - which heroku || wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
     - npm install
     - npm test
-    - docker build -f Dockerfile-cordova -t cordova .
+    - docker build --rm --force-rm --no-cache -f Dockerfile-cordova -t cordova .
     - pwd
     - ls -al
     - rm -rf hello
