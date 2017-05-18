@@ -17,10 +17,13 @@ build:
     - npm test
     - docker build -f Dockerfile-cordova -t cordova .
     - docker run --rm -v $PWD:/src cordova cordova create hello
+    - pwd
     - cd hello
     - docker run --rm -v $PWD:/src cordova cordova platform add android
     - docker run --rm -v $PWD:/src cordova cordova plugin add cordova-plugin-crosswalk-webview
     - docker run --rm -v $PWD:/src cordova cordova build android
+    - cp hello/platforms/android/build/outputs/apk/* assets/
+    - rm -rf hello
 
   post_ci:
     - ls -a
