@@ -18,23 +18,18 @@ build:
     - docker build --rm --force-rm --no-cache -f Dockerfile-cordova -t cordova .
     - pwd
     - ls -al
-    - rm -rf hello
     - docker run --rm -v $PWD:/src cordova rm -rf hello
     - docker run --rm -v $PWD:/src cordova cordova create hello
-    - pwd
-    - ls -al
-    - cd hello
+    - docker run --rm -v $PWD:/src cordova cd hello
     - docker run --rm -v $PWD:/src cordova cordova platform add android
     - docker run --rm -v $PWD:/src cordova cordova plugin add cordova-plugin-crosswalk-webview
     - docker run --rm -v $PWD:/src cordova cordova build android
     - cp hello/platforms/android/build/outputs/apk/* assets/
-    - rm -rf hello
     - docker run --rm -v $PWD:/src cordova rm -rf hello
 
   post_ci:
     - ls -a
     - pwd
-    - rm -rf hello
     - docker run --rm -v $PWD:/src cordova rm -rf hello
 
   on_success:
