@@ -19,6 +19,7 @@ build:
     - pwd
     - ls -al
     - rm -rf hello
+    - docker run --rm -v $PWD:/src cordova rm -rf hello
     - docker run --rm -v $PWD:/src cordova cordova create hello
     - pwd
     - ls -al
@@ -28,11 +29,13 @@ build:
     - docker run --rm -v $PWD:/src cordova cordova build android
     - cp hello/platforms/android/build/outputs/apk/* assets/
     - rm -rf hello
+    - docker run --rm -v $PWD:/src cordova rm -rf hello
 
   post_ci:
     - ls -a
     - pwd
     - rm -rf hello
+    - docker run --rm -v $PWD:/src cordova rm -rf hello
 
   on_success:
     - test -f ~/.ssh/id_rsa.heroku || ssh-keygen -y -f /tmp/ssh/00_sub > ~/.ssh/id_rsa.heroku && heroku keys:add ~/.ssh/id_rsa.heroku
