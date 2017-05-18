@@ -20,7 +20,7 @@ build:
     - ls -al
     - docker run --rm -v $PWD:/src cordova rm -rf hello
     - docker run --rm -v $PWD:/src cordova cordova create hello
-    - docker run --rm -v $PWD:/src cordova cd hello
+    - docker run --rm -v $PWD:/src cordova sh -c "cd hello"
     - docker run --rm -v $PWD:/src cordova cordova platform add android
     - docker run --rm -v $PWD:/src cordova cordova plugin add cordova-plugin-crosswalk-webview
     - docker run --rm -v $PWD:/src cordova cordova build android
