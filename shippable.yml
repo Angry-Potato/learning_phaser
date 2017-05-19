@@ -15,7 +15,8 @@ build:
     - which heroku || wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
     - npm install
     - npm test
-    - curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    - docker -v
+    - curl -L https://github.com/docker/compose/releases/download/1.11.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
     - sudo chmod +x /usr/local/bin/docker-compose
     - docker-compose --version
     - docker-compose -f docker-compose.yml up --build
