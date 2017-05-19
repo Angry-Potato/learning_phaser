@@ -2,7 +2,6 @@
 logs
 *.log
 npm-debug.log*
-assets/apk/*
 # Runtime data
 pids
 *.pid
