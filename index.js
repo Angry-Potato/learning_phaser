@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8080;
 
 // App
 const app = express();
-app.use('/assets', express.static(path.join(__dirname + '/assets')));
+app.use('/img', express.static(path.join(__dirname + '/img')));
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });

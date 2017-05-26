@@ -5,6 +5,9 @@ COPY android-sdk-license $ANDROID_HOME/licenses/
 WORKDIR /src
 
 RUN cordova create hello
+COPY img/*.png /src/hello/www/img/
+COPY img/*.js /src/hello/www/js/
+COPY cordova-index.html /src/hello/www/index.html
 WORKDIR /src/hello
 RUN cordova platform add android
 RUN cordova plugin add cordova-plugin-crosswalk-webview
