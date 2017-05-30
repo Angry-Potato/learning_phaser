@@ -11,5 +11,4 @@ COPY cordova-index.html /src/hello/www/index.html
 WORKDIR /src/hello
 RUN cordova platform add android
 RUN cordova plugin add cordova-plugin-crosswalk-webview
-COPY . /src/hello/www/
 RUN cordova prepare android
